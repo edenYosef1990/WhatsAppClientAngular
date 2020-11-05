@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
     this.http.get('https://localhost:5001/api/chat')
       .subscribe(res => {
         console.log(res);
+  
       })
   }
 }
