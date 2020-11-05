@@ -1,0 +1,7 @@
+.mainView {
+    background-color: #90f5ab;
+    /*margin-left: 120px;*/
+    padding: 10px;
+    height: 100%; /* Should be removed. Only for demonstration */
+  }
+  

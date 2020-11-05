@@ -1,0 +1,28 @@
+.mainViewCol {
+    float: left;
+    width: 80%;
+    height: 100%; /* Should be removed. Only for demonstration */
+  }
+  
+  .sideBarCol {
+    float: left;
+    width: 20%;
+    height: 100%; /* Should be removed. Only for demonstration */
+  }
+  
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  .fill-height {
+    min-height: 100%;
+    height:auto !important; /* cross-browser */
+    height: 100%; /* cross-browser */
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  

@@ -1,0 +1,11 @@
+.mainViewCol {
+  height: 100vh; /* Should be removed. Only for demonstration */
+}
+
+.ViewMessagesRow {
+  height: 88%;
+}
+
+.InputRow {
+  height: 12%;
+}
