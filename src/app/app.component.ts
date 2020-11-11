@@ -21,8 +21,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.signalRService.startConnection();
-    this.signalRService.addTransferChatDataListener();
-    this.signalRService.addBrodcastChatDataListen();
     this.startHttpRequest();
   }
 

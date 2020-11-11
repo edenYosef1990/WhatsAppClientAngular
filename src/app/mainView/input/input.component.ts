@@ -18,9 +18,7 @@ export class WhatsAppInputComponent {
   onClickSend() : void {
     var msg : MessageComponent = new MessageComponent();
     msg.text = this.inputText;
-    var messages : MessageComponent[] = [msg];
-    this.signalRService.setInputdata(messages);
-    this.signalRService.broadcastChatData();
+    this.signalRService.broadcastChatData(msg);
     
   }
 

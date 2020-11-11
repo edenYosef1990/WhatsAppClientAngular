@@ -14,12 +14,7 @@ export class SignalRService {
   public dataToSend : messageModel[]
 
   private hubConnection: signalR.HubConnection;
-  private _baseUrl: string;
   public broadcastedData: messageModel;
-
-  public setInputdata(inputData : messageModel[]) {
-    this.dataToSend = inputData;
-  }
 
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -28,8 +23,14 @@ export class SignalRService {
 
     this.hubConnection
       .start()
-      .then(() => console.log('Connection started'))
-      .catch(err => console.log('Error while starting connection: ' + err))
+      .then(() => {
+        console.log('Connection started');
+        this.addTransferChatDataListener();
+        this.addBrodcastChatDataListen();
+        this.startStreaming();
+      }
+      )
+      .catch(err => console.log('Error while starting connection: ' + err));
   }
 
   public addTransferChatDataListener = () => {
@@ -40,15 +41,24 @@ export class SignalRService {
 
   }
 
-  public broadcastChatData = () => {
-
-    const data = this.dataToSend.map(m => {
-      const temp = {
-        text : m.text
-      }
-      return temp;
+  public startStreaming() {
+    this.hubConnection.stream("StreamMessages").subscribe({
+      next : this.onStreamRecieved,
+      error : (err) => console.log(err) ,
+      complete : () => console.log("finished streaming")
     });
-    this.hubConnection.invoke('BroadcastChatData' , data)
+  }
+
+  public onStreamRecieved(data : messageModel) {
+    console.log("recevied in stream :" + data.text);
+  }
+
+  public broadcastChatData = (message : messageModel) => {
+
+    const dataToSend = {
+      text : message.text
+    }
+    this.hubConnection.invoke('BroadcastChatData' , dataToSend)
     .catch(err => console.log(err));
   }
 
