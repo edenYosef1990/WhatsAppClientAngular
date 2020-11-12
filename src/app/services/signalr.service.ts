@@ -1,5 +1,6 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, EventEmitter } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
+import { observable, Observable, Subject } from 'rxjs';
 import { messageModel } from '../interfaces/messageModel.model';
 
 
@@ -15,6 +16,9 @@ export class SignalRService {
 
   private hubConnection: signalR.HubConnection;
   public broadcastedData: messageModel;
+  public newMessageEvent : EventEmitter<messageModel> = new EventEmitter();
+  public subj : Subject<messageModel> = new Subject<messageModel>();
+
 
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -43,14 +47,10 @@ export class SignalRService {
 
   public startStreaming() {
     this.hubConnection.stream("StreamMessages").subscribe({
-      next : this.onStreamRecieved,
+      next : (msg) => this.newMessageEvent.emit(msg),
       error : (err) => console.log(err) ,
       complete : () => console.log("finished streaming")
     });
-  }
-
-  public onStreamRecieved(data : messageModel) {
-    console.log("recevied in stream :" + data.text);
   }
 
   public broadcastChatData = (message : messageModel) => {

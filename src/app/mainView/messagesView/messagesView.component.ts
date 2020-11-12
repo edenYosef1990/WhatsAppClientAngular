@@ -1,4 +1,5 @@
 import { Component , Input } from '@angular/core';
+import { SignalRService } from 'src/app/services/signalr.service';
 
 @Component({
   selector: 'messages-view',
@@ -9,12 +10,8 @@ export class MessagesViewComponent {
   myName: string = "eden";
   texts: Array<String>;
 
-  constructor() {
+  constructor(public signalRService: SignalRService) {
     this.texts = new Array<String>();
-    this.texts.push("היי");
-    this.texts.push("מה שלומך");
-    this.texts.push("בדיקה");
-    this.texts.push("בדיקה 12");
-    this.texts.push("עוד בדיקה");
+    this.signalRService.newMessageEvent.subscribe(msg => this.texts.push(msg.text));
   }
 }
