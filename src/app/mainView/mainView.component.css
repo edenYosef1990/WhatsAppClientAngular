@@ -4,6 +4,7 @@
 
 .ViewMessagesRow {
   height: 88%;
+  overflow:scroll;
 }
 
 .InputRow {
