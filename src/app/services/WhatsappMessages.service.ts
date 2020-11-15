@@ -16,6 +16,8 @@ export class WhatsappMessages {
     constructor(public signalRService: SignalRService, private http: HttpClient){
     }
 
+// a great read about promises / async in javascript : https://blog.logrocket.com/async-await-in-typescript/
+
     public async Connect() : Promise<void> {
         this.startHttpRequest();
         await this.signalRService.startConnection()
