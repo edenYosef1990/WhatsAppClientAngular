@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Animations } from './animations'
 import { SignalRService } from './services/signalr.service';
+import { WhatsappMessages } from './services/WhatsappMessages.service'
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -12,23 +13,17 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent implements OnInit {
   showMenu: boolean = true;
   title = 'WhatsappClient';
+  clientID : number;
 
   toggleMenu(value) {
     this.showMenu = value;
   }
 
-  constructor(public signalRService: SignalRService, private http: HttpClient) { }
+  constructor(public whatsappMessages : WhatsappMessages) { }
 
   ngOnInit() {
-    this.signalRService.startConnection();
-    this.startHttpRequest();
+    this.whatsappMessages.Connect();
   }
 
-  private startHttpRequest = () => {
-    this.http.get('https://localhost:5001/api/chat')
-      .subscribe(res => {
-        console.log(res);
-  
-      })
-  }
+
 }

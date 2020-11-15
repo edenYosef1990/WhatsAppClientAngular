@@ -9,5 +9,5 @@ import { Component, Input } from '@angular/core';
 export class MessageComponent {
 
   @Input() text: string;
-
+  @Input() clientID : number;
 }

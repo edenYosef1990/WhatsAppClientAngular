@@ -11,6 +11,7 @@ import { MessagesViewComponent } from './mainView/messagesView/messagesView.comp
 import { WhatsAppInputComponent } from './mainView/input/input.component'
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NotMyMessageComponent } from './mainView/message/NotMyMessage/notMyMessage.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SideBarComponent,
     MessageComponent,
     MessagesViewComponent,
+    NotMyMessageComponent,
     WhatsAppInputComponent
   ],
   imports: [

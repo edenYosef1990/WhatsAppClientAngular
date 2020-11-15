@@ -20,21 +20,13 @@ export class SignalRService {
   public subj : Subject<messageModel> = new Subject<messageModel>();
 
 
-  public startConnection = () => {
+  public startConnection = () : Promise<void> => {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl('https://localhost:5001/chat')
       .build();
 
-    this.hubConnection
+    return this.hubConnection
       .start()
-      .then(() => {
-        console.log('Connection started');
-        this.addTransferChatDataListener();
-        this.addBrodcastChatDataListen();
-        this.startStreaming();
-      }
-      )
-      .catch(err => console.log('Error while starting connection: ' + err));
   }
 
   public addTransferChatDataListener = () => {
@@ -56,6 +48,7 @@ export class SignalRService {
   public broadcastChatData = (message : messageModel) => {
 
     const dataToSend = {
+      clientID : message.clientID,
       text : message.text
     }
     this.hubConnection.invoke('BroadcastChatData' , dataToSend)
@@ -68,4 +61,7 @@ export class SignalRService {
     })
   }
 
+  public GetClientId = () : Promise<number> => {
+    return this.hubConnection.invoke("SendNewId");
+  }
 }

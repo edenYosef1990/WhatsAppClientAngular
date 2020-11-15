@@ -1,6 +1,7 @@
 <div class="mainView overflow-auto crollbar square" style="height: 100%">
-    <div *ngFor="let text of texts">
-      <message [text]="text"></message>
+    <div *ngFor="let message of messages">
+      <message *ngIf="IsMyMessage(message.clientID)" [text]="message.text"></message>
+      <notMyMessage *ngIf="IsMyMessage(message.clientID) == false" [text]="message.text"></notMyMessage>
     </div>
   </div>
   

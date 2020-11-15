@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SignalRService } from '../../services/signalr.service';
 import { MessageComponent } from '../message/message.component';
+import { WhatsappMessages } from '../../services/WhatsappMessages.service'
 
 @Component({
   selector: 'whatsapp-input',
@@ -11,15 +12,15 @@ export class WhatsAppInputComponent {
 
   inputText : string
 
-  constructor(public signalRService: SignalRService){
+  constructor(public whatsappMessage : WhatsappMessages){
     this.inputText = "";
   }
 
   onClickSend() : void {
     var msg : MessageComponent = new MessageComponent();
     msg.text = this.inputText;
-    this.signalRService.broadcastChatData(msg);
-    
+    msg.clientID = this.whatsappMessage.clientID;
+    this.whatsappMessage.broadcastChatData(msg);
   }
 
   onKey(value : string) { // without type info
