@@ -16,21 +16,15 @@ export class WhatsappMessages {
     constructor(public signalRService: SignalRService, private http: HttpClient){
     }
 
-    public Connect() : void {
-        this.signalRService.startConnection()      
-            .then(() => {
-                this.signalRService.GetClientId().then(clientID => {
-                    this.clientID = clientID;
-                });
-                console.log('Connection started');
-                this.signalRService.addTransferChatDataListener();
-                this.signalRService.addBrodcastChatDataListen();
-                this.signalRService.startStreaming();
-                this.signalRService.newMessageEvent.subscribe(msg => this.newMessageEvent.emit(msg));
-          }
-          )
-          .catch(err => console.log('Error while starting connection: ' + err));
+    public async Connect() : Promise<void> {
         this.startHttpRequest();
+        await this.signalRService.startConnection()
+        this.clientID = await this.signalRService.GetClientId();
+        console.log('Connection started');
+        this.signalRService.addTransferChatDataListener();
+        this.signalRService.addBrodcastChatDataListen();
+        this.signalRService.startStreaming();
+        this.signalRService.newMessageEvent.subscribe(msg => this.newMessageEvent.emit(msg));
     }
 
     broadcastChatData = (message : messageModel) => this.signalRService.broadcastChatData(message);
