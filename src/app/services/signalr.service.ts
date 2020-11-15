@@ -16,7 +16,6 @@ export class SignalRService {
 
   private hubConnection: signalR.HubConnection;
   public broadcastedData: messageModel;
-  public newMessageEvent : EventEmitter<messageModel> = new EventEmitter();
   public subj : Subject<messageModel> = new Subject<messageModel>();
 
 
@@ -38,11 +37,7 @@ export class SignalRService {
   }
 
   public startStreaming() {
-    this.hubConnection.stream("StreamMessages").subscribe({
-      next : (msg) => this.newMessageEvent.emit(msg),
-      error : (err) => console.log(err) ,
-      complete : () => console.log("finished streaming")
-    });
+    this.hubConnection.stream("StreamMessages").subscribe(this.subj);
   }
 
   public broadcastChatData = (message : messageModel) => {

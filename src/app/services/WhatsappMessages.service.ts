@@ -2,6 +2,7 @@ import { EventEmitter, Injectable} from '@angular/core';
 import { SignalRService} from './signalr.service'
 import { HttpClient } from '@angular/common/http';
 import { messageModel } from '../interfaces/messageModel.model';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -26,8 +27,9 @@ export class WhatsappMessages {
         this.signalRService.addTransferChatDataListener();
         this.signalRService.addBrodcastChatDataListen();
         this.signalRService.startStreaming();
-        this.signalRService.newMessageEvent.subscribe(msg => this.newMessageEvent.emit(msg));
     }
+
+    MessageStream = () : Observable<messageModel> => this.signalRService.subj.asObservable();
 
     broadcastChatData = (message : messageModel) => this.signalRService.broadcastChatData(message);
 

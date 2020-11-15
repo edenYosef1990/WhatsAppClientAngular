@@ -14,7 +14,7 @@ export class MessagesViewComponent {
 
   constructor(public whatsappMessage : WhatsappMessages) {
     this.messages = new Array<messageModel>();
-    this.whatsappMessage.newMessageEvent.subscribe(msg => this.messages.push(msg));
+    this.whatsappMessage.MessageStream().subscribe(msg=>this.messages.push(msg));
   }
 
   IsMyMessage(msgID : number) : boolean {
